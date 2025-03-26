@@ -8,7 +8,7 @@ import {
   Footer,
 } from "../components";
 
-function Home() {
+function HomePage() {
   return (
     <div>
       <Navbar />
@@ -21,4 +21,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default HomePage;

@@ -9,16 +9,7 @@ import {
 } from "./components";
 
 function App() {
-  return (
-    <div>
-      <Navbar />
-      <HeroSection />
-      <AboutSection />
-      <ProjectsSection />
-      <ContactSection />
-      <Footer />
-    </div>
-  );
+  return <div></div>;
 }
 
 export default App;

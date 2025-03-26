@@ -1,6 +1,30 @@
 import React, { useState } from "react";
+import authenticationService from "../appwrite/auth";
+import { useDispatch } from "react-redux";
+import { login } from "../store/authSlice";
 
 const SignupForm = () => {
+  const [error, setError] = useState("");
+
+  const dispatch = useDispatch();
+
+  const signup = async (data) => {
+    setError("");
+    try {
+      const user = await authenticationService.signup(data);
+      const userProfile = await authenticationService.userProfile(data);
+
+      if (user && userProfile) {
+        const userData = await authenticationService.getCurrentUser();
+        if (userData) {
+          dispatch(login(userData));
+        }
+      }
+    } catch (error) {
+      setError(error);
+    }
+  };
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -33,6 +57,21 @@ const SignupForm = () => {
     } finally {
       setIsSubmitting(false);
       setTimeout(() => setSubmitStatus(null), 5000);
+    }
+
+    setError("");
+    try {
+      const user = await authenticationService.signup();
+      const userProfile = await authenticationService.userProfile(data);
+
+      if (user && userProfile) {
+        const userData = await authenticationService.getCurrentUser();
+        if (userData) {
+          dispatch(login(userData));
+        }
+      }
+    } catch (error) {
+      setError(error);
     }
   };
 

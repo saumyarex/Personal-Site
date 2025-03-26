@@ -1,9 +1,9 @@
 import React from "react";
-import UserDashboard from "./pages/userDashboard";
-import Home from "./pages/Home.jsx";
+import UserDashboard from "./pages/AdminPanel.jsx";
+import Home from "./pages/HomePage.jsx";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
-import AddPost from "./pages/AddPost.jsx";
+import AddPost from "./pages/AddProject.jsx";
 
 function Preview() {
   return (

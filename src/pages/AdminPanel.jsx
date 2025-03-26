@@ -1,7 +1,7 @@
 import React from "react";
 import { Sidebar, Container, Button, AllPosts } from "../components";
 
-function UserDashboard() {
+function AdminPanel() {
   return (
     <Container>
       <div className="flex fixed z-10 top-1 right-3">
@@ -62,4 +62,4 @@ function UserDashboard() {
   );
 }
 
-export default UserDashboard;
+export default AdminPanel;

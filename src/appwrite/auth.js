@@ -26,7 +26,7 @@ export class Authentication {
         console.log("User registration failed");
       }
     } catch (error) {
-      console.log(error);
+      throw new Error(error);
     }
   }
 

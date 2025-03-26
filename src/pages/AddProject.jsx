@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, PostUploadForm } from "../components";
 
-function AddPost() {
+function AddProject() {
   return (
     <Container>
       <PostUploadForm />
@@ -9,4 +9,4 @@ function AddPost() {
   );
 }
 
-export default AddPost;
+export default AddProject;

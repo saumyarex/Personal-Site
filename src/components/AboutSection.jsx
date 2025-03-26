@@ -3,9 +3,9 @@ import React from "react";
 const AboutSection = () => {
   // Skills data
   const skills = [
-    { name: "React", level: 90 },
-    { name: "JavaScript", level: 85 },
-    { name: "HTML/CSS", level: 95 },
+    { name: "React", level: 75 },
+    { name: "JavaScript", level: 80 },
+    { name: "HTML/CSS", level: 85 },
     { name: "Tailwind CSS", level: 70 },
     { name: "Git/GitHub", level: 70 },
     { name: "UI/UX Design", level: 50 },
@@ -113,7 +113,7 @@ const AboutSection = () => {
                   "Bootstrap",
                   "Prompt Engineering",
                   "Figma",
-                  "Public Speaking",
+                  "Presentation",
                 ].map((skill, index) => (
                   <span
                     key={index}
