@@ -1,10 +1,5 @@
 import { Client, Account, ID, Databases } from "appwrite";
-import {
-  appwriteURL,
-  appwriteProjectID,
-  appwriteUserCollectionID,
-  appwriteDatabaseID,
-} from "../config/config.js";
+import config from "../config/config.js";
 
 export class Authentication {
   //Appwrite authentication logic
@@ -13,8 +8,8 @@ export class Authentication {
   databases;
   constructor() {
     this.client = new Client()
-      .setEndpoint(appwriteURL)
-      .setProject(appwriteProjectID);
+      .setEndpoint(config.appwriteURL)
+      .setProject(config.appwriteProjectID);
     this.account = new Account(this.client);
     this.databases = new Databases(this.client);
   }
@@ -62,8 +57,8 @@ export class Authentication {
   async userProfile({ name, email, phoneNo, location }) {
     try {
       const result = await this.databases.createDocument(
-        appwriteDatabaseID,
-        appwriteUserCollectionID,
+        config.appwriteDatabaseID,
+        config.appwriteUserCollectionID,
         ID.unique(),
         {
           name,

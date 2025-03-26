@@ -1,11 +1,5 @@
 import { Client, Account, ID, Databases, Storage, Query } from "appwrite";
-import {
-  appWriteURL,
-  appwriteProjectID,
-  appwriteDatabaseID,
-  appwriteProjectCollectionID,
-  appwriteBucketID,
-} from "../config/config.js";
+import config from "../config/config.js";
 
 export class ProjectUploadServices {
   client;
@@ -15,8 +9,8 @@ export class ProjectUploadServices {
 
   constructor() {
     this.client = new Client()
-      .setEndpoint(appWriteURL)
-      .setProject(appwriteProjectID);
+      .setEndpoint(config.appwriteURL)
+      .setProject(config.appwriteProjectID);
 
     this.account = new Account(this.client);
     this.databases = new Databases(this.client);
@@ -36,8 +30,8 @@ export class ProjectUploadServices {
   }) {
     try {
       const result = await this.databases.createDocument(
-        appwriteDatabaseID,
-        appwriteProjectCollectionID,
+        config.appwriteDatabaseID,
+        config.appwriteProjectCollectionID,
         slug,
         {
           title,
@@ -73,8 +67,8 @@ export class ProjectUploadServices {
   }) {
     try {
       return await this.databases.updateDocument(
-        appwriteDatabaseID,
-        appwriteProjectCollectionID,
+        config.appwriteDatabaseID,
+        config.appwriteProjectCollectionID,
         slug,
         {
           title,
@@ -92,11 +86,11 @@ export class ProjectUploadServices {
     }
   }
 
-  async getAllProjectInfo() {
+  async getAllProjectsInfo() {
     try {
       return await this.databases.listDocuments(
-        appwriteDatabaseID,
-        appwriteProjectCollectionID,
+        config.appwriteDatabaseID,
+        config.appwriteProjectCollectionID,
         [Query.limit(25), Query.equal("status", "active")]
       );
     } catch (error) {
@@ -107,7 +101,11 @@ export class ProjectUploadServices {
   //images upload logic
   async uploadImage(file) {
     try {
-      return await this.storage.createFile(appwriteBucketID, ID.unique(), file);
+      return await this.storage.createFile(
+        config.appwriteBucketID,
+        ID.unique(),
+        file
+      );
     } catch (error) {
       console.log(error);
     }
@@ -115,7 +113,7 @@ export class ProjectUploadServices {
 
   getImagePreview(fileId) {
     try {
-      return this.storage.getFilePreview(appwriteBucketID, fileId);
+      return this.storage.getFilePreview(config.appwriteBucketID, fileId);
     } catch (error) {
       console.log(error);
     }

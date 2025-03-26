@@ -13,7 +13,7 @@ const ProjectCard = ({
 
   return (
     <div
-      className={`bg-gray-800 rounded-lg overflow-hidden shadow-lg border border-gray-700 transition-all duration-500 h-full flex flex-col ${
+      className={`bg-gray-800 rounded-lg overflow-hidden shadow-lg border border-gray-700 transition-all duration-500 h-full flex flex-col m-3 ${
         featured ? "md:col-span-2 md:flex-row" : ""
       }`}
       onMouseEnter={() => setIsHovered(true)}
