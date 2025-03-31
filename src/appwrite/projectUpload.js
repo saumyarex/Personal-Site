@@ -57,23 +57,22 @@ export class ProjectUploadServices {
   async updateProjectInfo({
     title,
     description,
-    image,
+    imageid,
     tags,
     demoLink = "",
     codeLink,
     featured = "false",
-    slug,
-    status,
+    status = true,
   }) {
     try {
       return await this.databases.updateDocument(
         config.appwriteDatabaseID,
         config.appwriteProjectCollectionID,
-        slug,
+        ID.unique(),
         {
           title,
           description,
-          image,
+          imageid,
           tags,
           demoLink,
           codeLink,

@@ -1,21 +1,31 @@
 import React, { useState } from "react";
+import projectUploadServices from "../appwrite/projectUpload";
+import { useNavigate } from "react-router-dom";
 
 const PostUploadForm = () => {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     title: "",
     description: "",
-    image: "",
+    imageid: "",
     demoLink: "",
     codeLink: "",
     featured: false,
     tags: "",
   });
 
+  const [image, setImage] = useState(null);
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null);
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value, type, checked, files } = e.target;
+
+    if (type === "file") {
+      setImage(files[0]);
+    }
     setFormData((prevData) => ({
       ...prevData,
       [name]: type === "checkbox" ? checked : value,
@@ -27,36 +37,41 @@ const PostUploadForm = () => {
     setIsSubmitting(true);
 
     try {
-      // Convert tags string to array
-      const formattedData = {
-        ...formData,
-        tags: formData.tags.split(",").map((tag) => tag.trim()),
-      };
-
       // Replace with actual upload logic
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-      console.log("Formatted data:", formattedData);
+      const file = await projectUploadServices.uploadImage(image);
+
+      if (file) {
+        // Convert tags string to array
+        const formattedData = {
+          ...formData,
+          tags: formData.tags.split(",").map((tag) => tag.trim()),
+          imageid: file.$id,
+        };
+        await projectUploadServices.postProjectInfo(formattedData);
+      }
       setSubmitStatus("success");
       setFormData({
         title: "",
         description: "",
-        image: "",
+        imageid: "",
         demoLink: "",
         codeLink: "",
         featured: false,
         tags: "",
       });
+      setImage(null);
     } catch (error) {
       setSubmitStatus("error");
       console.error("Upload error:", error);
     } finally {
       setIsSubmitting(false);
-      setTimeout(() => setSubmitStatus(null), 5000);
+      setSubmitStatus(null);
+      navigate("/admin-panel");
     }
   };
 
   return (
-    <div className="bg-gray-800 p-6 md:p-8 rounded-lg border border-gray-700 shadow-lg max-w-2xl mx-auto">
+    <div className=" bg-gray-800 p-6 md:p-8 rounded-lg border border-gray-700 shadow-lg max-w-2xl mx-auto">
       <h3 className="text-xl font-bold text-white mb-6">Upload New Post</h3>
 
       {submitStatus === "success" && (
@@ -132,16 +147,15 @@ const PostUploadForm = () => {
 
         <div>
           <label htmlFor="image" className="block text-gray-300 mb-2">
-            Image URL
+            Upload Image
           </label>
           <input
-            type="url"
+            type="file"
             id="image"
             name="image"
-            value={formData.image}
+            accept="image/*"
             onChange={handleChange}
             className="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            placeholder="Enter image URL"
             required
           />
         </div>
@@ -200,9 +214,12 @@ const PostUploadForm = () => {
             name="featured"
             checked={formData.featured}
             onChange={handleChange}
-            className="w-4 h-4 bg-gray-700 border-gray-600 rounded text-blue-500 focus:ring-blue-500 focus:ring-offset-gray-800"
+            className="w-4 h-4 bg-gray-700 border-gray-600 rounded text-blue-500 focus:ring-blue-500 focus:ring-offset-gray-800 hover:cursor-pointer"
           />
-          <label htmlFor="featured" className="ml-2 text-gray-300">
+          <label
+            htmlFor="featured"
+            className="ml-2 text-gray-300 hover:cursor-pointer"
+          >
             Mark as featured post
           </label>
         </div>

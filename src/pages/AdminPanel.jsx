@@ -7,20 +7,19 @@ import { useNavigate } from "react-router-dom";
 import { func } from "prop-types";
 
 function AdminPanel() {
-
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   async function logoutUser() {
     try {
-      const userLogout = await authenticationService.logout()
+      const userLogout = await authenticationService.logout();
 
-      if(userLogout) {
-        dispatch(logout())
-        navigate('/')
+      if (userLogout) {
+        dispatch(logout());
+        navigate("/");
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
 
@@ -64,7 +63,9 @@ function AdminPanel() {
             </defs>
           </svg>
         </div>
-        <Button className="m-r5" onClick={} >Logout</Button>
+        <Button className="m-r5" onClick={logoutUser}>
+          Logout
+        </Button>
       </div>
 
       <div className="grid gap-10 grid-cols-12">
