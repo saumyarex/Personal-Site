@@ -1,7 +1,29 @@
 import React from "react";
 import { Sidebar, Container, Button, AllPosts } from "../components";
+import { useDispatch } from "react-redux";
+import { logout } from "../store/authSlice";
+import authenticationService from "../appwrite/auth";
+import { useNavigate } from "react-router-dom";
+import { func } from "prop-types";
 
 function AdminPanel() {
+
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  async function logoutUser() {
+    try {
+      const userLogout = await authenticationService.logout()
+
+      if(userLogout) {
+        dispatch(logout())
+        navigate('/')
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <Container>
       <div className="flex fixed z-10 top-1 right-3">
@@ -42,7 +64,7 @@ function AdminPanel() {
             </defs>
           </svg>
         </div>
-        <Button className="m-r5">Logout</Button>
+        <Button className="m-r5" onClick={} >Logout</Button>
       </div>
 
       <div className="grid gap-10 grid-cols-12">

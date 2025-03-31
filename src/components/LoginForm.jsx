@@ -1,6 +1,13 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { login } from "../store/authSlice";
+import authenticationService from "../appwrite/auth";
+import { useDispatch } from "react-redux";
 
 const LoginForm = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -22,15 +29,22 @@ const LoginForm = () => {
     setIsSubmitting(true);
 
     try {
-      // Replace with actual login logic
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-      setSubmitStatus("success");
-      setFormData({ email: "", password: "" });
+      const userLogin = await authenticationService.login({
+        email: formData.email,
+        password: formData.password,
+      });
+
+      if (userLogin) {
+        const userData = await authenticationService.getCurrentUser();
+        if (userData) {
+          dispatch(login(userData));
+          navigate("/admin-panel");
+        }
+      }
     } catch (error) {
       setSubmitStatus(error);
     } finally {
       setIsSubmitting(false);
-      setTimeout(() => setSubmitStatus(null), 5000);
     }
   };
 

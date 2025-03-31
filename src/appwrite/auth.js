@@ -75,6 +75,10 @@ export class Authentication {
       console.log(error);
     }
   }
+
+  async logout() {
+    return await this.account.deleteSession("current");
+  }
 }
 
 const authenticationService = new Authentication();

@@ -2,32 +2,16 @@ import React, { useState } from "react";
 import authenticationService from "../appwrite/auth";
 import { useDispatch } from "react-redux";
 import { login } from "../store/authSlice";
+import { useNavigate } from "react-router-dom";
 
 const SignupForm = () => {
-  const [error, setError] = useState("");
-
   const dispatch = useDispatch();
-
-  const signup = async (data) => {
-    setError("");
-    try {
-      const user = await authenticationService.signup(data);
-      const userProfile = await authenticationService.userProfile(data);
-
-      if (user && userProfile) {
-        const userData = await authenticationService.getCurrentUser();
-        if (userData) {
-          dispatch(login(userData));
-        }
-      }
-    } catch (error) {
-      setError(error);
-    }
-  };
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    password: "",
     phone: "",
     location: "",
   });
@@ -48,30 +32,29 @@ const SignupForm = () => {
     setIsSubmitting(true);
 
     try {
-      // Replace with actual signup logic
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-      setSubmitStatus("success");
-      setFormData({ name: "", email: "", phone: "", location: "" });
-    } catch (error) {
-      setSubmitStatus(error);
-    } finally {
-      setIsSubmitting(false);
-      setTimeout(() => setSubmitStatus(null), 5000);
-    }
+      const user = await authenticationService.signup({
+        email: formData.email,
+        password: formData.password,
+      });
 
-    setError("");
-    try {
-      const user = await authenticationService.signup();
-      const userProfile = await authenticationService.userProfile(data);
+      const userProfile = await authenticationService.userProfile({
+        name: formData.name,
+        email: formData.email,
+        phoneNo: formData.phone,
+        location: formData.location,
+      });
 
       if (user && userProfile) {
         const userData = await authenticationService.getCurrentUser();
         if (userData) {
           dispatch(login(userData));
+          navigate("/admin-panel");
         }
       }
     } catch (error) {
-      setError(error);
+      setSubmitStatus(error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -146,6 +129,22 @@ const SignupForm = () => {
             onChange={handleChange}
             className="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             placeholder="Enter your email"
+            required
+          />
+        </div>
+
+        <div>
+          <label htmlFor="pasword" className="block text-gray-300 mb-2">
+            Password
+          </label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            className="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            placeholder="Enter your password"
             required
           />
         </div>
