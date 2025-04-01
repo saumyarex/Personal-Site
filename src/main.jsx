@@ -11,6 +11,7 @@ import SignupPage from "./pages/SignupPage.jsx";
 import AdminPanel from "./pages/AdminPanel.jsx";
 import AddProject from "./pages/AddProject.jsx";
 import HomePage from "./pages/HomePage.jsx";
+import Authlayout from "./components/Authlayout.jsx";
 
 const router = createBrowserRouter([
   {
@@ -19,19 +20,35 @@ const router = createBrowserRouter([
   },
   {
     path: "/login",
-    element: <LoginPage />,
+    element: (
+      <Authlayout authentication={false}>
+        <LoginPage />
+      </Authlayout>
+    ),
   },
   {
     path: "/signup",
-    element: <SignupPage />,
+    element: (
+      <Authlayout authentication={false}>
+        <SignupPage />
+      </Authlayout>
+    ),
   },
   {
     path: "/admin-panel",
-    element: <AdminPanel />,
+    element: (
+      <Authlayout authentication={true}>
+        <AdminPanel />
+      </Authlayout>
+    ),
   },
   {
     path: "/addprojects",
-    element: <AddProject />,
+    element: (
+      <Authlayout authentication={true}>
+        <AddProject />
+      </Authlayout>
+    ),
   },
 ]);
 

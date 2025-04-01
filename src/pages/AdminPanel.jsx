@@ -4,7 +4,6 @@ import { useDispatch } from "react-redux";
 import { logout } from "../store/authSlice";
 import authenticationService from "../appwrite/auth";
 import { useNavigate } from "react-router-dom";
-import { func } from "prop-types";
 
 function AdminPanel() {
   const dispatch = useDispatch();

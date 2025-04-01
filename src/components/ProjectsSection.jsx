@@ -3,6 +3,7 @@ import { ProjectCard } from "./";
 import projectUploadServices from "../appwrite/projectUpload";
 import { useDispatch, useSelector } from "react-redux";
 import { setPosts } from "../store/postsSlice";
+import { parse } from "@storybook/blocks";
 
 const ProjectsSection = () => {
   const dispatch = useDispatch();
@@ -51,16 +52,12 @@ const ProjectsSection = () => {
   //   },
   // ];
 
-  let projects = useSelector((state) => state.posts.postsData);
+  let [projects, setProjects] = useState([]);
 
-  useEffect(
-    () =>
-      projectUploadServices
-        .getAllProjectsInfo(5)
-        .then((res) => res.json())
-        .then((res) => dispatch(setPosts(res.documents))),
-    [dispatch, projects]
-  );
+  projectUploadServices.getAllProjectsInfo(5).then((res) => {
+    projects = setProjects(res.documents);
+    dispatch(setPosts(res.documents));
+  });
 
   // Filter projects based on active category
   const filteredProjects =
@@ -105,7 +102,7 @@ const ProjectsSection = () => {
 
         {/* Projects grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredProjects.map((project) => (
+          {filteredProjects?.map((project) => (
             <div
               key={project.id}
               className={`${project.featured ? "lg:col-span-2" : ""}`}
