@@ -37,6 +37,9 @@ const SignupForm = () => {
         password: formData.password,
       });
 
+      console.log("user");
+      console.log(user);
+
       const userProfile = await authenticationService.userProfile({
         name: formData.name,
         email: formData.email,
@@ -44,8 +47,12 @@ const SignupForm = () => {
         location: formData.location,
       });
 
+      console.log("userProfile");
+      console.log(userProfile);
+
       if (user && userProfile) {
         const userData = await authenticationService.getCurrentUser();
+        console.log(userData);
         if (userData) {
           dispatch(login(userData));
           navigate("/admin-panel");

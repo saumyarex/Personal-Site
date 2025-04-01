@@ -14,8 +14,9 @@ function AdminPanel() {
       const userLogout = await authenticationService.logout();
 
       if (userLogout) {
-        dispatch(logout());
         navigate("/");
+        dispatch(logout());
+        console.log("user logout");
       }
     } catch (error) {
       console.log(error);

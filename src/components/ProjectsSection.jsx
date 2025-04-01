@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { ProjectCard } from "./";
 import projectUploadServices from "../appwrite/projectUpload";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setPosts } from "../store/postsSlice";
-import { parse } from "@storybook/blocks";
 
 const ProjectsSection = () => {
   const dispatch = useDispatch();
@@ -54,10 +53,19 @@ const ProjectsSection = () => {
 
   let [projects, setProjects] = useState([]);
 
-  projectUploadServices.getAllProjectsInfo(5).then((res) => {
-    projects = setProjects(res.documents);
-    dispatch(setPosts(res.documents));
-  });
+  React.useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const res = await projectUploadServices.getAllProjectsInfo(5);
+        setProjects(res.documents);
+        dispatch(setPosts(res.documents));
+      } catch (error) {
+        console.error("Error fetching projects:", error);
+      }
+    };
+
+    fetchProjects();
+  }, []);
 
   // Filter projects based on active category
   const filteredProjects =

@@ -20,13 +20,12 @@ export class Authentication {
 
       if (user) {
         console.log("Register successfuly");
-        console.log(user);
-        this.login({ email, password });
+        return this.login({ email, password });
       } else {
         console.log("User registration failed");
       }
     } catch (error) {
-      throw new Error(error);
+      console.log(error);
     }
   }
 
@@ -39,7 +38,7 @@ export class Authentication {
 
       if (session) {
         console.log("login successful");
-        console.log(session);
+        return session;
       }
     } catch (error) {
       console.log(error);
@@ -67,12 +66,9 @@ export class Authentication {
           location,
         }
       );
-
-      if (result) {
-        console.log(result);
-      }
+      return result;
     } catch (error) {
-      console.log(error);
+      console.log("User Profile error", error);
     }
   }
 

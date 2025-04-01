@@ -93,7 +93,7 @@ export class ProjectUploadServices {
         [Query.limit(noOfpost)]
       );
     } catch (error) {
-      console.log(error);
+      console.log("getAllProjectInfo error :", error);
     }
   }
 
