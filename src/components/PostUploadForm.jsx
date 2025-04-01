@@ -13,6 +13,7 @@ const PostUploadForm = () => {
     codeLink: "",
     featured: false,
     tags: "",
+    category: "",
   });
 
   const [image, setImage] = useState(null);
@@ -58,6 +59,7 @@ const PostUploadForm = () => {
         codeLink: "",
         featured: false,
         tags: "",
+        category: "",
       });
       setImage(null);
     } catch (error) {
@@ -69,6 +71,8 @@ const PostUploadForm = () => {
       navigate("/admin-panel");
     }
   };
+
+  const categories = ["Web App", "Website", "UI/UX", "Mobile"];
 
   return (
     <div className=" bg-gray-800 p-6 md:p-8 rounded-lg border border-gray-700 shadow-lg max-w-2xl mx-auto">
@@ -205,6 +209,28 @@ const PostUploadForm = () => {
             className="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             placeholder="react, typescript, tailwind"
           />
+        </div>
+
+        <div className="flex items-center">
+          <label
+            htmlFor="category"
+            className="ml-2 mr-4 text-gray-300 hover:cursor-pointer"
+          >
+            Category
+          </label>
+          <select
+            name="category"
+            id="category"
+            value={formData.category}
+            onChange={handleChange}
+            className="text-gray-300 rounded-md hover:cursor-pointer bg-gray-700 p-2 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            {categories.map((category) => (
+              <option key={category} value={category}>
+                {category}
+              </option>
+            ))}
+          </select>
         </div>
 
         <div className="flex items-center">

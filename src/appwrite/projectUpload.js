@@ -85,12 +85,12 @@ export class ProjectUploadServices {
     }
   }
 
-  async getAllProjectsInfo() {
+  async getAllProjectsInfo(noOfpost) {
     try {
       return await this.databases.listDocuments(
         config.appwriteDatabaseID,
         config.appwriteProjectCollectionID,
-        [Query.limit(25), Query.equal("status", "active")]
+        [Query.limit(noOfpost)]
       );
     } catch (error) {
       console.log(error);
