@@ -47,14 +47,15 @@ const SignupForm = () => {
         location: formData.location,
       });
 
-      console.log("userProfile");
-      console.log(userProfile);
+      //console.log("userProfile");
+      //console.log(userProfile);
 
       if (user && userProfile) {
         const userData = await authenticationService.getCurrentUser();
         console.log(userData);
         if (userData) {
           dispatch(login(userData));
+          localStorage.setItem("user", JSON.stringify(userData));
           navigate("/admin-panel");
         }
       }

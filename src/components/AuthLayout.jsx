@@ -10,10 +10,6 @@ function Authlayout({ children, authentication = true }) {
 
   React.useEffect(() => {
     // If we're on the homepage, don't redirect
-    if (location.pathname === "/") {
-      setLoader(false);
-      return;
-    }
 
     if (authentication && authStatus !== authentication) {
       console.log(authStatus);

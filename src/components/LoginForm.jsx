@@ -38,6 +38,7 @@ const LoginForm = () => {
         const userData = await authenticationService.getCurrentUser();
         if (userData) {
           dispatch(login(userData));
+          localStorage.setItem("user", JSON.stringify(userData));
           navigate("/admin-panel");
         }
       }

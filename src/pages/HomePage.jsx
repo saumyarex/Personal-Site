@@ -8,18 +8,15 @@ import {
   Footer,
 } from "../components";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../store/authSlice";
+import { logout, login } from "../store/authSlice";
 
 function HomePage() {
   const dispatch = useDispatch();
 
-  function logoutUser() {
-    setTimeout(() => {
-      dispatch(logout());
-    }, 1000);
+  const user = localStorage.getItem("user");
+  if (user) {
+    dispatch(login(JSON.parse(user)));
   }
-
-  logoutUser();
 
   const authStatus = useSelector((state) => state.auth.status);
   console.log(authStatus);

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-
+import emailjs from "@emailjs/browser";
+import config from "../config/config";
 const ContactSection = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -23,17 +24,26 @@ const ContactSection = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate form submission
     try {
-      // Replace with actual form submission logic
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      await emailjs.send(
+        config.emailjsServiceID, // Replace with your EmailJS service ID
+        config.emailjsTemplateID, // Replace with your EmailJS template ID
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+        },
+        config.emailjsPublicKey // Replace with your EmailJS public key
+      );
+
       setSubmitStatus("success");
       setFormData({ name: "", email: "", subject: "", message: "" });
     } catch (error) {
-      setSubmitStatus("error", error);
+      console.error("Error sending email:", error);
+      setSubmitStatus("error");
     } finally {
       setIsSubmitting(false);
-      // Reset status after 5 seconds
       setTimeout(() => setSubmitStatus(null), 5000);
     }
   };

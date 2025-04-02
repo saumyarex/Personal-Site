@@ -1,4 +1,4 @@
-import { Client, Account, ID, Databases, Storage, Query,ImageFormat } from "appwrite";
+import { Client, Account, ID, Databases, Storage, Query } from "appwrite";
 import config from "../config/config.js";
 
 export class ProjectUploadServices {
@@ -119,10 +119,9 @@ export class ProjectUploadServices {
       const imagePreview = this.storage.getFilePreview(
         config.appwriteBucketID,
         fileId,
-        ImageFormat.Jpg
       );
-      console.log(imagePreview);
-      return imagePreview;
+      //console.log(imagePreview.replace("preview", "view"));
+      return imagePreview.replace("preview", "view");
     } catch (error) {
       console.log(error);
     }

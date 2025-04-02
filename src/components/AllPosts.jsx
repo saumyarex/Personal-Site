@@ -24,12 +24,6 @@ function AllPosts({ className = "" }) {
     fetchProjects();
   }, []); // Empty de
 
-  async function getImagePreview(imageid) {
-    const imagePreview = await projectUploadServices.getImagePreview(imageid);
-    //console.log(imagePreview);
-    return imagePreview;
-  }
-
   return (
     <div
       className={`w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 ${className}`}
@@ -39,7 +33,7 @@ function AllPosts({ className = "" }) {
           <ProjectCard
             title={post.title}
             description={post.description}
-            image={() => getImagePreview(post.imageid)}
+            image={projectUploadServices.getImagePreview(post.imageid)}
             tags={post.tags}
             demoLink={post.demoLink}
             codeLink={post.codeLink}

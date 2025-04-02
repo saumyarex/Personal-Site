@@ -1,17 +1,28 @@
 import React from "react";
 import { Sidebar, Container, Button, AllPosts } from "../components";
 import { useDispatch } from "react-redux";
-import { logout } from "../store/authSlice";
+import { logout, login } from "../store/authSlice";
 import authenticationService from "../appwrite/auth";
 import { useNavigate } from "react-router-dom";
 
 function AdminPanel() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const user = localStorage.getItem("user");
+  if (user) {
+    dispatch(login(JSON.parse(user)));
+  }
+
   async function logoutUser() {
     try {
       const userLogout = await authenticationService.logout();
       if (userLogout) {
         console.log("user logout");
+        setTimeout(() => {
+          dispatch(logout());
+          localStorage.removeItem("user");
+        }, 2000);
         navigate("/");
       }
     } catch (error) {
