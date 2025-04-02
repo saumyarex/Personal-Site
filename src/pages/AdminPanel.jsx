@@ -6,17 +6,13 @@ import authenticationService from "../appwrite/auth";
 import { useNavigate } from "react-router-dom";
 
 function AdminPanel() {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-
   async function logoutUser() {
     try {
       const userLogout = await authenticationService.logout();
-
       if (userLogout) {
-        navigate("/");
-        dispatch(logout());
         console.log("user logout");
+        navigate("/");
       }
     } catch (error) {
       console.log(error);
