@@ -12,6 +12,8 @@ function AllPosts({ className = "" }) {
     const fetchProjects = async () => {
       try {
         const res = await projectUploadServices.getAllProjectsInfo(10);
+        //console.log(res);
+
         setProjects(res.documents);
         dispatch(setPosts(res.documents));
       } catch (error) {
@@ -20,7 +22,13 @@ function AllPosts({ className = "" }) {
     };
 
     fetchProjects();
-  }, []); // Empty dependency array means this runs once on mount
+  }, []); // Empty de
+
+  async function getImagePreview(imageid) {
+    const imagePreview = await projectUploadServices.getImagePreview(imageid);
+    //console.log(imagePreview);
+    return imagePreview;
+  }
 
   return (
     <div
@@ -31,7 +39,7 @@ function AllPosts({ className = "" }) {
           <ProjectCard
             title={post.title}
             description={post.description}
-            image={post.image}
+            image={() => getImagePreview(post.imageid)}
             tags={post.tags}
             demoLink={post.demoLink}
             codeLink={post.codeLink}

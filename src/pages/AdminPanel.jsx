@@ -22,7 +22,10 @@ function AdminPanel() {
   return (
     <Container>
       <div className="flex fixed z-10 top-1 right-3">
-        <div className="hover:cursor-pointer mt-3 mr-4">
+        <div
+          onClick={() => navigate("/addprojects")}
+          className="hover:cursor-pointer mt-3 mr-4"
+        >
           <svg
             width="54"
             height="54"

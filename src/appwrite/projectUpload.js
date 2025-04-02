@@ -1,4 +1,4 @@
-import { Client, Account, ID, Databases, Storage, Query } from "appwrite";
+import { Client, Account, ID, Databases, Storage, Query,ImageFormat } from "appwrite";
 import config from "../config/config.js";
 
 export class ProjectUploadServices {
@@ -20,28 +20,29 @@ export class ProjectUploadServices {
   async postProjectInfo({
     title,
     description,
-    image,
+    imageid,
     tags,
     demoLink = "",
     codeLink,
-    featured = "false",
-    slug,
-    status,
+    featured = false,
+    status = "true",
+    category
   }) {
     try {
       const result = await this.databases.createDocument(
         config.appwriteDatabaseID,
         config.appwriteProjectCollectionID,
-        slug,
+        ID.unique(),
         {
           title,
           description,
-          image,
+          imageid,
           tags,
           demoLink,
           codeLink,
           featured,
           status,
+          category,
         }
       );
 
@@ -61,14 +62,16 @@ export class ProjectUploadServices {
     tags,
     demoLink = "",
     codeLink,
-    featured = "false",
-    status = true,
+    featured = false,
+    status = "true",
+    id,
+    category,
   }) {
     try {
       return await this.databases.updateDocument(
         config.appwriteDatabaseID,
         config.appwriteProjectCollectionID,
-        ID.unique(),
+        id,
         {
           title,
           description,
@@ -78,6 +81,7 @@ export class ProjectUploadServices {
           codeLink,
           featured,
           status,
+          category,
         }
       );
     } catch (error) {
@@ -112,7 +116,13 @@ export class ProjectUploadServices {
 
   getImagePreview(fileId) {
     try {
-      return this.storage.getFilePreview(config.appwriteBucketID, fileId);
+      const imagePreview = this.storage.getFilePreview(
+        config.appwriteBucketID,
+        fileId,
+        ImageFormat.Jpg
+      );
+      console.log(imagePreview);
+      return imagePreview;
     } catch (error) {
       console.log(error);
     }

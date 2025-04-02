@@ -57,6 +57,7 @@ const ProjectsSection = () => {
     const fetchProjects = async () => {
       try {
         const res = await projectUploadServices.getAllProjectsInfo(5);
+        //console.log(res);
         setProjects(res.documents);
         dispatch(setPosts(res.documents));
       } catch (error) {
@@ -67,6 +68,11 @@ const ProjectsSection = () => {
     fetchProjects();
   }, []);
 
+  // function getImagePreview(imageid) {
+  //   const imagePreview = projectUploadServices.getImagePreview(imageid);
+  //   console.log(imagePreview);
+  //   return imagePreview;
+  // }
   // Filter projects based on active category
   const filteredProjects =
     activeCategory === "All"
@@ -112,13 +118,13 @@ const ProjectsSection = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredProjects?.map((project) => (
             <div
-              key={project.id}
+              key={project.$id}
               className={`${project.featured ? "lg:col-span-2" : ""}`}
             >
               <ProjectCard
                 title={project.title}
                 description={project.description}
-                image={project.image}
+                image={projectUploadServices.getImagePreview(project.imageid)}
                 tags={project.tags}
                 demoLink={project.demoLink}
                 codeLink={project.codeLink}

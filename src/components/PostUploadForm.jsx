@@ -13,7 +13,7 @@ const PostUploadForm = () => {
     codeLink: "",
     featured: false,
     tags: "",
-    category: "",
+    category: "Web App",
   });
 
   const [image, setImage] = useState(null);
@@ -40,6 +40,7 @@ const PostUploadForm = () => {
     try {
       // Replace with actual upload logic
       const file = await projectUploadServices.uploadImage(image);
+      console.log(file);
 
       if (file) {
         // Convert tags string to array
@@ -48,6 +49,7 @@ const PostUploadForm = () => {
           tags: formData.tags.split(",").map((tag) => tag.trim()),
           imageid: file.$id,
         };
+        console.log(formattedData);
         await projectUploadServices.postProjectInfo(formattedData);
       }
       setSubmitStatus("success");
@@ -59,7 +61,7 @@ const PostUploadForm = () => {
         codeLink: "",
         featured: false,
         tags: "",
-        category: "",
+        category: "Web App",
       });
       setImage(null);
     } catch (error) {
