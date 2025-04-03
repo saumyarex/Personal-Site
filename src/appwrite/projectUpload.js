@@ -26,7 +26,8 @@ export class ProjectUploadServices {
     codeLink,
     featured = false,
     status = "true",
-    category
+    category,
+    userID,
   }) {
     try {
       const result = await this.databases.createDocument(
@@ -43,51 +44,54 @@ export class ProjectUploadServices {
           featured,
           status,
           category,
+          userID,
         }
       );
 
       if (result) {
         console.log("Uploaded successfully");
-        console.log(result);
+        //console.log(result);
       }
     } catch (error) {
       console.log(error);
     }
   }
 
-  async updateProjectInfo({
-    title,
-    description,
-    imageid,
-    tags,
-    demoLink = "",
-    codeLink,
-    featured = false,
-    status = "true",
-    id,
-    category,
-  }) {
-    try {
-      return await this.databases.updateDocument(
-        config.appwriteDatabaseID,
-        config.appwriteProjectCollectionID,
-        id,
-        {
-          title,
-          description,
-          imageid,
-          tags,
-          demoLink,
-          codeLink,
-          featured,
-          status,
-          category,
-        }
-      );
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  //Future update project info
+
+  // async updateProjectInfo({
+  //   title,
+  //   description,
+  //   imageid,
+  //   tags,
+  //   demoLink = "",
+  //   codeLink,
+  //   featured = false,
+  //   status = "true",
+  //   id,
+  //   category,
+  // }) {
+  //   try {
+  //     return await this.databases.updateDocument(
+  //       config.appwriteDatabaseID,
+  //       config.appwriteProjectCollectionID,
+  //       id,
+  //       {
+  //         title,
+  //         description,
+  //         imageid,
+  //         tags,
+  //         demoLink,
+  //         codeLink,
+  //         featured,
+  //         status,
+  //         category,
+  //       }
+  //     );
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
 
   async getAllProjectsInfo(noOfpost) {
     try {

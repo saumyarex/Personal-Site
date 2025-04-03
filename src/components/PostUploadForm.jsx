@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import projectUploadServices from "../appwrite/projectUpload";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const PostUploadForm = () => {
   const navigate = useNavigate();
-
+  const userId = useSelector((state) => state.auth.userData.$id);
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -14,6 +15,7 @@ const PostUploadForm = () => {
     featured: false,
     tags: "",
     category: "Web App",
+    userID: "",
   });
 
   const [image, setImage] = useState(null);
@@ -38,9 +40,10 @@ const PostUploadForm = () => {
     setIsSubmitting(true);
 
     try {
-      // Replace with actual upload logic
+      // upload logic
       const file = await projectUploadServices.uploadImage(image);
-      console.log(file);
+
+      //console.log(file);
 
       if (file) {
         // Convert tags string to array
@@ -48,8 +51,9 @@ const PostUploadForm = () => {
           ...formData,
           tags: formData.tags.split(",").map((tag) => tag.trim()),
           imageid: file.$id,
+          userID: userId,
         };
-        console.log(formattedData);
+        //console.log(formattedData);
         await projectUploadServices.postProjectInfo(formattedData);
       }
       setSubmitStatus("success");
@@ -62,6 +66,7 @@ const PostUploadForm = () => {
         featured: false,
         tags: "",
         category: "Web App",
+        userID: "",
       });
       setImage(null);
     } catch (error) {
