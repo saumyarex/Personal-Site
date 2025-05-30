@@ -6,11 +6,7 @@ import SignupPage from "./pages/SignupPage";
 import AddPost from "./pages/AddProject.jsx";
 
 function Preview() {
-  return (
-    <div className="w-full ">
-      <Home />
-    </div>
-  );
+  return <div className="w-full "></div>;
 }
 
 export default Preview;
